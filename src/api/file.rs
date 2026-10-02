@@ -7,7 +7,7 @@ use owo_colors::OwoColorize;
 use smash_arc::*;
 use walkdir::WalkDir;
 
-use crate::{hashes, resource};
+use crate::{hashes, resource, utils};
 
 #[no_mangle]
 pub extern "C" fn arcrop_load_file(hash: Hash40, out_buffer: *mut u8, buf_length: usize, out_size: &mut usize) -> bool {
@@ -82,7 +82,7 @@ pub extern "C" fn arcrop_is_mod_enabled(hash: Hash40) -> bool {
 fn enabled_mods() -> HashSet<Hash40> {
     let storage = config::GLOBAL_CONFIG.lock().unwrap();
 
-    if storage.get_flag("legacy_discovery") {
+    if storage.get_flag("legacy_discovery") || utils::env::is_emulator() {
         WalkDir::new(crate::utils::paths::mods())
             .max_depth(1)
             .into_iter()
@@ -101,10 +101,7 @@ fn enabled_mods() -> HashSet<Hash40> {
     } else {
         let workspace_name: String = storage.get_field("workspace").unwrap_or_else(|_| "Default".to_string());
         let workspace_list: HashMap<String, String> = storage.get_field_json("workspace_list").unwrap_or_default();
-        let preset_name = match workspace_list.get(&workspace_name).or_else(|| workspace_list.get("Default")) {
-            Some(name) => name,
-            None => return HashSet::new(),
-        };
+        let preset_name = &workspace_list[&workspace_name];
         storage.get_field_json(preset_name).unwrap_or_default()
     }
 }

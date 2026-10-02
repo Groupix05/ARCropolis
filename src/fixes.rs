@@ -13,11 +13,11 @@ fn install_inkling_patches() {
     Patch::in_text(offsets::inkling_patch())
         .nop()
         .expect("Failed to patch inkling 1 cmp");
-
+    
     Patch::in_text(offsets::inkling_patch() + 4)
         .nop()
         .expect("Failed to patch inkling 1 b.cs");
-
+    
     BranchBuilder::branch()
         .branch_offset(offsets::inkling_c10plus())
         .branch_to_offset(offsets::inkling_c10plus() + 0x38)

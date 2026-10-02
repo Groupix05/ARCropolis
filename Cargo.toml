@@ -1,14 +1,14 @@
 [package]
 name = "arcropolis"
-version = "4.1.1"
+version = "4.0.11-custom"
 authors = ["Raytwo <raytwo@arcropolis.com>, blujay <the.blu.dev@gmail.com>, jam1garner <jam@jam1.re>, CoolSonicKirby <alihussain2001@gmail.com>, WuBoytH <alexwuief@gmail.com>"]
 edition = "2018"
 
 [package.metadata.skyline]
 titleid = "01006A800016E000"
-package-resources = [
-    { local = "resources/arcadia", package = "ultimate/arcropolis/resources" }
-]
+# package-resources = [
+#     { local = "changelog.toml", package = "ultimate/arcropolis/changelog.toml" }
+# ]
 
 [lib]
 crate-type = ["cdylib"]
@@ -60,9 +60,9 @@ smash-bgm-property = "1.2.0"
 # For inputs
 ninput = { git = "https://github.com/blu-dev/ninput" }
 # For Offset Searching
-patterns = { path = "crates/patterns" }
+lazysimd = { git = "https://github.com/Raytwo/lazysimd" }
 config = { path = "crates/config" }
-arcadia = { path = "crates/arcadia", optional = true }
+menus = { path = "crates/menus", optional = true }
 
 [patch.crates-io]
 # Specifying latest commit because git only doesn't use latest changes
@@ -71,7 +71,7 @@ native-tls = { git = "https://github.com/skyline-rs/rust-native-tls", rev = "f20
 [features]
 default = ["ui", "online"]
 online = ["zip", "gh-updater", "minreq"]
-ui = ["dep:arcadia"]
+ui = ["dep:menus"]
 
 [profile.dev]
 panic = "abort"

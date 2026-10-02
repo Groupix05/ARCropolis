@@ -70,7 +70,7 @@ impl FileHandler for BgmHandler {
             .map_err(|e| ModFsError::Handler(format!("failed to write patched bgm_property: {:?}", e)))?;
         Ok(writer.into_inner())
     }
-
+    
     fn sources(&self, hash: Hash40) -> Vec<PathBuf> {
         self.patches.get(&hash).cloned().unwrap_or_default()
     }

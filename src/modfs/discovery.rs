@@ -65,7 +65,6 @@ impl ModFs {
                     self.handlers.bind_hash(target, id);
                 }
             }
-
             if patches_itself {
                 debug!("'{}' from {} is a patch for itself, not a replacement", local.display(), root.display());
                 continue;
